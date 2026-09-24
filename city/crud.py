@@ -1,5 +1,4 @@
 from sqlalchemy import select, delete, update
-from sqlalchemy.dialects.postgresql import asyncpg
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from city import schemas, models

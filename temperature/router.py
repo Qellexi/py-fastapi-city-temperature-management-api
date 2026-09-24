@@ -44,6 +44,8 @@ async def update_temperatures(db: AsyncSession = Depends(get_db)):
 async def get_cities(db: Annotated[AsyncSession, Depends(get_db)]):
     return await crud.get_all_temperatures(db=db)
 
-@router.get("/temperatures/{city_id}", response_model=schemas.Temperature)
-async def get_city_by_id(city_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
-    return await crud.get_temperature_by_city(db=db, city_id=city_id)
+@router.get("/temperatures/", response_model=schemas.Temperature)
+async def get_city_by_id(city_id: int | None = None, db: AsyncSession = Depends(get_db)):
+    if city_id is None:
+        return await crud.get_all_temperatures(db)
+    return await crud.get_temperature_by_city(db, city_id)
