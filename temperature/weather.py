@@ -20,4 +20,4 @@ async def fetch_temperature(client: httpx.AsyncClient, city_name: str) -> float 
         }
     )
     weather.raise_for_status()
-    return weather.json().get["current"]["temperature_2m"]
+    return weather.json()["current"]["temperature_2m"]

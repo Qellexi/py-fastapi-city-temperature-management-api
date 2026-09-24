@@ -1,10 +1,7 @@
-from ast import List
-
 from sqlalchemy import select, delete, update
 from sqlalchemy.dialects.postgresql import asyncpg
 from sqlalchemy.ext.asyncio import AsyncSession
 
-import city
 from city import schemas, models
 
 
@@ -56,13 +53,9 @@ async def update_city_by_id(
             .values(
                 **city_data.model_dump()
             )
+            .returning(models.City)
             )
+
     city = await db.scalar(stmt)
-
-    try:
-        await db.execute(stmt)
-        await db.commit()
-    except asyncpg.exceptions.UniqueViolationError:
-        return None
-
+    await db.commit()
     return city
